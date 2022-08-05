@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { Button, Flex, Heading } from '@chakra-ui/react'
+import { Box, Button, Flex, Heading } from '@chakra-ui/react'
 
 import { GAME_VIEW_CONTAINER_ID } from './utils/constants'
 import { Game } from './game'
@@ -14,9 +14,10 @@ export default function App() {
   }
 
   return (
-    <Flex as="main" w="100vw" h="100vh" flexDirection="column">
+    <Flex as="main" w="100vw" h="100%" flexDirection="column">
       <Flex
         h="100%"
+        minHeight="100vh"
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
@@ -40,7 +41,7 @@ export default function App() {
           Play Now
         </Button>
 
-        <div id={GAME_VIEW_CONTAINER_ID} />
+        <Box mt="8" id={GAME_VIEW_CONTAINER_ID} />
       </Flex>
     </Flex>
   )
