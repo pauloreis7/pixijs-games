@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { Box, Button, Flex, Heading } from '@chakra-ui/react'
 
 import { GAME_VIEW_CONTAINER_ID } from './utils/constants'
@@ -6,11 +6,14 @@ import { Game } from './game'
 
 export default function App() {
   const gameRef = useRef<Game>({} as Game)
+  const [gameStarted, setGameStarted] = useState(false)
 
   function startMatch() {
     gameRef.current = new Game()
 
     gameRef.current.start()
+
+    setGameStarted(true)
   }
 
   return (
@@ -37,11 +40,18 @@ export default function App() {
           pixiJS mini-games
         </Heading>
 
-        <Button colorScheme="pink" size={['md', 'lg']} onClick={startMatch}>
-          Play Now
-        </Button>
+        {!gameStarted && (
+          <Button
+            colorScheme="pink"
+            mb="8"
+            size={['md', 'lg']}
+            onClick={startMatch}
+          >
+            Play Now
+          </Button>
+        )}
 
-        <Box mt="8" id={GAME_VIEW_CONTAINER_ID} />
+        <Box id={GAME_VIEW_CONTAINER_ID} />
       </Flex>
     </Flex>
   )
