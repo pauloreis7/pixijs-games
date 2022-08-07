@@ -1,7 +1,7 @@
 import { Application, Sprite } from 'pixi.js'
 
-import { GAME_VIEW_CONTAINER_ID } from '../utils/constants'
-import { acceptedPlayerMoves } from '../utils/commands'
+import { GAME_VIEW_CONTAINER_ID, BULLET_SPEED } from '../utils/constants'
+import { acceptedPlayerMoves, shoot } from '../utils/commands'
 import { Inputs } from './inputs'
 
 import { Player } from './entities/Player'
@@ -33,6 +33,7 @@ export class Game {
 
   private gameLoop = () => {
     this.updateInputs()
+    this.updateBullets()
   }
 
   start = () => {
@@ -62,5 +63,33 @@ export class Game {
     moveFunctionKeyA(this.inputs.keys.KeyA, this.player)
     moveFunctionKeyS(this.inputs.keys.KeyS, this.player, this.app.view.height)
     moveFunctionKeyD(this.inputs.keys.KeyD, this.player, this.app.view.width)
+
+    shoot(
+      this.inputs.shoot,
+      this.player.body.x,
+      this.player.body.y,
+      this.player,
+      this.addShoot
+    )
+  }
+
+  updateBullets() {
+    for (const bulletId in this.bullets) {
+      const currentBullet = this.bullets[bulletId]
+
+      currentBullet.position.y -= BULLET_SPEED
+
+      if (currentBullet.position.y < 0) {
+        this.app.stage.removeChild(currentBullet)
+
+        delete this.bullets[bulletId]
+      }
+    }
+  }
+
+  private addShoot = (bullet: Sprite, bulletId: number) => {
+    this.app.stage.addChild(bullet)
+
+    this.bullets[bulletId] = bullet
   }
 }

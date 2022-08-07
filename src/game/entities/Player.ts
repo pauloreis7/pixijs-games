@@ -1,5 +1,7 @@
 import { Sprite, Texture } from 'pixi.js'
 
+import { BULLET_RATE } from '../../utils/constants'
+
 import playerImg from '../assets/player.png'
 
 export class Player {
@@ -14,5 +16,16 @@ export class Player {
     this.body.anchor.set(0.5)
     this.body.x = initialX
     this.body.y = initialY
+  }
+
+  playerCanShoot(): boolean {
+    const dateNow: number = Date.now()
+
+    if (dateNow - this.lastShootAt < BULLET_RATE * 1.1) {
+      return false
+    }
+
+    this.lastShootAt = dateNow
+    return true
   }
 }
