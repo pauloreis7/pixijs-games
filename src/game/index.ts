@@ -1,10 +1,10 @@
 import { Application, Sprite } from 'pixi.js'
 
-import { GAME_VIEW_CONTAINER_ID, PLAYER_SPEED } from '../utils/constants'
+import { GAME_VIEW_CONTAINER_ID } from '../utils/constants'
+import { acceptedPlayerMoves } from '../utils/commands'
 import { Inputs } from './inputs'
 
 export class Game {
-  // PIXI application
   private app: Application
 
   private player: Sprite
@@ -50,20 +50,14 @@ export class Game {
   }
 
   updateInputs() {
-    if (this.inputs.keys.KeyW && this.player.y - 18 >= 0) {
-      this.player.y -= PLAYER_SPEED
-    }
+    const moveFunctionKeyW = acceptedPlayerMoves.KeyW
+    const moveFunctionKeyA = acceptedPlayerMoves.KeyA
+    const moveFunctionKeyS = acceptedPlayerMoves.KeyS
+    const moveFunctionKeyD = acceptedPlayerMoves.KeyD
 
-    if (this.inputs.keys.KeyA && this.player.x - 14 >= 0) {
-      this.player.x -= PLAYER_SPEED
-    }
-
-    if (this.inputs.keys.KeyS && this.player.y + 19 < this.app.view.height) {
-      this.player.y += PLAYER_SPEED
-    }
-
-    if (this.inputs.keys.KeyD && this.player.x + 14 < this.app.view.width) {
-      this.player.x += PLAYER_SPEED
-    }
+    moveFunctionKeyW(this.inputs.keys.KeyW, this.player)
+    moveFunctionKeyA(this.inputs.keys.KeyA, this.player)
+    moveFunctionKeyS(this.inputs.keys.KeyS, this.player, this.app.view.height)
+    moveFunctionKeyD(this.inputs.keys.KeyD, this.player, this.app.view.width)
   }
 }
