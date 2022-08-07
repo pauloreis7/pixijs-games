@@ -1,7 +1,4 @@
-import { Sprite } from 'pixi.js'
-
-import bulletImg from '../game/assets/bullet.png'
-
+import { Bullet } from '../game/entities/Bullet'
 import { Player } from '../game/entities/Player'
 
 import { PLAYER_SPEED } from './constants'
@@ -31,22 +28,18 @@ export const acceptedPlayerMoves = {
 
 export function shoot(
   shootIsPressed: boolean,
+  player: Player,
   initialX: number,
   initialY: number,
-  player: Player,
-  addShoot: (bullet: Sprite, bulletId: number) => void
+  addBullet: (bullet: Bullet, bulletId: number) => void
 ) {
   if (shootIsPressed && player.playerCanShoot()) {
     player.lastShootAt = Date.now()
 
-    const bullet = Sprite.from(bulletImg, { resolution: 2.5 })
-
-    bullet.anchor.set(0.5)
-    bullet.x = initialX
-    bullet.y = initialY
-
     const bulletId = Math.floor(Math.random() * 10000)
 
-    addShoot(bullet, bulletId)
+    const bullet = new Bullet(initialX, initialY)
+
+    addBullet(bullet, bulletId)
   }
 }

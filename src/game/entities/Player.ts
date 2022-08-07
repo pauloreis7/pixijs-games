@@ -1,8 +1,8 @@
 import { Sprite, Texture } from 'pixi.js'
 
-import { BULLET_RATE } from '../../utils/constants'
-
 import playerImg from '../assets/player.png'
+
+import { BULLET_RATE } from '../../utils/constants'
 
 export class Player {
   public body: Sprite

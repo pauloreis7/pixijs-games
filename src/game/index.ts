@@ -1,9 +1,10 @@
-import { Application, Sprite } from 'pixi.js'
+import { Application } from 'pixi.js'
 
 import { GAME_VIEW_CONTAINER_ID, BULLET_SPEED } from '../utils/constants'
 import { acceptedPlayerMoves, shoot } from '../utils/commands'
 import { Inputs } from './inputs'
 
+import { Bullet } from './entities/Bullet'
 import { Player } from './entities/Player'
 
 export class Game {
@@ -11,7 +12,7 @@ export class Game {
 
   private player: Player
 
-  private bullets: { [key: number]: Sprite } = {}
+  private bullets: { [key: number]: Bullet } = {}
 
   public inputs: Inputs = new Inputs()
 
@@ -66,10 +67,10 @@ export class Game {
 
     shoot(
       this.inputs.shoot,
+      this.player,
       this.player.body.x,
       this.player.body.y,
-      this.player,
-      this.addShoot
+      this.addBullet
     )
   }
 
@@ -77,18 +78,18 @@ export class Game {
     for (const bulletId in this.bullets) {
       const currentBullet = this.bullets[bulletId]
 
-      currentBullet.position.y -= BULLET_SPEED
+      currentBullet.body.position.y -= BULLET_SPEED
 
-      if (currentBullet.position.y < 0) {
-        this.app.stage.removeChild(currentBullet)
+      if (currentBullet.body.position.y < 0) {
+        this.app.stage.removeChild(currentBullet.body)
 
         delete this.bullets[bulletId]
       }
     }
   }
 
-  private addShoot = (bullet: Sprite, bulletId: number) => {
-    this.app.stage.addChild(bullet)
+  private addBullet = (bullet: Bullet, bulletId: number) => {
+    this.app.stage.addChild(bullet.body)
 
     this.bullets[bulletId] = bullet
   }
