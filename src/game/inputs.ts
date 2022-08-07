@@ -7,7 +7,7 @@ export class Inputs {
   }
 
   public start = () => {
-    window.addEventListener('blur', this.cleanPressedKeys, false)
+    window.addEventListener('blur', this.cleanPressedInputs, false)
 
     // keyboard event handlers
     document.addEventListener('keydown', this.handleKeyDown)
@@ -33,7 +33,7 @@ export class Inputs {
     this.keys[event.code] = false
   }
 
-  private cleanPressedKeys = () => {
+  private cleanPressedInputs = () => {
     this.keys.KeyW = false
     this.keys.KeyA = false
     this.keys.KeyS = false

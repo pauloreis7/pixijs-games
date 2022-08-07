@@ -4,10 +4,14 @@ import { GAME_VIEW_CONTAINER_ID } from '../utils/constants'
 import { acceptedPlayerMoves } from '../utils/commands'
 import { Inputs } from './inputs'
 
+import { Player } from './entities/Player'
+
 export class Game {
   private app: Application
 
-  private player: Sprite
+  private player: Player
+
+  private bullets: { [key: number]: Sprite } = {}
 
   public inputs: Inputs = new Inputs()
 
@@ -20,12 +24,11 @@ export class Game {
       backgroundColor: Number('0xb3b5c6')
     })
 
-    this.player = Sprite.from('src/game/assets/player.png')
-    this.player.anchor.set(0.5)
-    this.player.x = this.app.view.width / 2
-    this.player.y = this.app.view.height / 2
+    const player = new Player(this.app.view.width / 2, this.app.view.height / 2)
 
-    this.app.stage.addChild(this.player)
+    this.player = player
+
+    this.app.stage.addChild(player.body)
   }
 
   private gameLoop = () => {

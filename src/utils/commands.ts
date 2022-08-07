@@ -1,26 +1,26 @@
-import { Sprite } from 'pixi.js'
+import { Player } from '../game/entities/Player'
 
 import { PLAYER_SPEED } from './constants'
 
 export const acceptedPlayerMoves = {
-  KeyW(keyIsPressed: boolean, player: Sprite) {
+  KeyW(keyIsPressed: boolean, player: Player) {
     if (keyIsPressed) {
-      player.y = Math.max(player.y - PLAYER_SPEED, 18)
+      player.body.y = Math.max(player.body.y - PLAYER_SPEED, 18)
     }
   },
-  KeyA(keyIsPressed: boolean, player: Sprite) {
+  KeyA(keyIsPressed: boolean, player: Player) {
     if (keyIsPressed) {
-      player.x = Math.max(player.x - PLAYER_SPEED, 12)
+      player.body.x = Math.max(player.body.x - PLAYER_SPEED, 12)
     }
   },
-  KeyS(keyIsPressed: boolean, player: Sprite, screenHeight: number) {
+  KeyS(keyIsPressed: boolean, player: Player, screenHeight: number) {
     if (keyIsPressed) {
-      player.y = Math.min(player.y + PLAYER_SPEED, screenHeight - 19)
+      player.body.y = Math.min(player.body.y + PLAYER_SPEED, screenHeight - 19)
     }
   },
-  KeyD(keyIsPressed: boolean, player: Sprite, screenWidth: number) {
+  KeyD(keyIsPressed: boolean, player: Player, screenWidth: number) {
     if (keyIsPressed) {
-      player.x = Math.min(player.x + PLAYER_SPEED, screenWidth - 12)
+      player.body.x = Math.min(player.body.x + PLAYER_SPEED, screenWidth - 12)
     }
   }
 }
