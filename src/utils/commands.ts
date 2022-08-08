@@ -5,23 +5,43 @@ import { PLAYER_SPEED } from './constants'
 
 export const acceptedPlayerMoves = {
   KeyW(keyIsPressed: boolean, player: Player) {
-    if (keyIsPressed) {
-      player.body.y = Math.max(player.body.y - PLAYER_SPEED, 18)
+    if (keyIsPressed && player.body) {
+      if (!player.body.playing) {
+        player.body.textures = player.playerSheet.walkNorth
+        player.body.play()
+      }
+
+      player.body.y = Math.max(player.body.y - PLAYER_SPEED, 30)
     }
   },
   KeyA(keyIsPressed: boolean, player: Player) {
-    if (keyIsPressed) {
-      player.body.x = Math.max(player.body.x - PLAYER_SPEED, 12)
+    if (keyIsPressed && player.body) {
+      if (!player.body.playing) {
+        player.body.textures = player.playerSheet.walkWest
+        player.body.play()
+      }
+
+      player.body.x = Math.max(player.body.x - PLAYER_SPEED, 30)
     }
   },
   KeyS(keyIsPressed: boolean, player: Player, screenHeight: number) {
-    if (keyIsPressed) {
-      player.body.y = Math.min(player.body.y + PLAYER_SPEED, screenHeight - 19)
+    if (keyIsPressed && player.body) {
+      if (!player.body.playing) {
+        player.body.textures = player.playerSheet.walkSouth
+        player.body.play()
+      }
+
+      player.body.y = Math.min(player.body.y + PLAYER_SPEED, screenHeight - 30)
     }
   },
   KeyD(keyIsPressed: boolean, player: Player, screenWidth: number) {
-    if (keyIsPressed) {
-      player.body.x = Math.min(player.body.x + PLAYER_SPEED, screenWidth - 12)
+    if (keyIsPressed && player.body) {
+      if (!player.body.playing) {
+        player.body.textures = player.playerSheet.walkEast
+        player.body.play()
+      }
+
+      player.body.x = Math.min(player.body.x + PLAYER_SPEED, screenWidth - 30)
     }
   }
 }
@@ -29,8 +49,8 @@ export const acceptedPlayerMoves = {
 export function shoot(
   shootIsPressed: boolean,
   player: Player,
-  initialX: number,
-  initialY: number,
+  initialX = 0,
+  initialY = 0,
   addBullet: (bullet: Bullet, bulletId: number) => void
 ) {
   if (shootIsPressed && player.playerCanShoot()) {

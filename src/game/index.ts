@@ -29,7 +29,14 @@ export class Game {
 
     this.player = player
 
-    this.app.stage.addChild(player.body)
+    player.playerSpritesLoader.onComplete.add(() => {
+      if (this.player.body) {
+        this.app.stage.addChild(this.player.body)
+        this.player.body.play()
+      }
+
+      this.app.ticker.add(this.gameLoop)
+    })
   }
 
   private gameLoop = () => {
@@ -50,7 +57,6 @@ export class Game {
     gameViewContainer.appendChild(this.app.view)
 
     this.app.start()
-    this.app.ticker.add(this.gameLoop)
     this.inputs.start()
   }
 
@@ -68,8 +74,8 @@ export class Game {
     shoot(
       this.inputs.shoot,
       this.player,
-      this.player.body.x,
-      this.player.body.y,
+      this.player.body?.x,
+      this.player.body?.y,
       this.addBullet
     )
   }
