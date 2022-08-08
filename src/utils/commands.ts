@@ -1,3 +1,7 @@
+import { AnimatedSprite } from 'pixi.js'
+
+import { PlayerSheetProps } from './types'
+
 import { Bullet } from '../game/entities/Bullet'
 import { Player } from '../game/entities/Player'
 
@@ -43,6 +47,26 @@ export const acceptedPlayerMoves = {
 
       player.body.x = Math.min(player.body.x + PLAYER_SPEED, screenWidth - 30)
     }
+  }
+}
+
+export const acceptedPlayerStandKeys: {
+  [key: string]: (
+    playerBody: AnimatedSprite,
+    playerSheets: PlayerSheetProps
+  ) => void
+} = {
+  KeyW(playerBody: AnimatedSprite, playerSheets: PlayerSheetProps) {
+    playerBody.textures = playerSheets.standNorth
+  },
+  KeyA(playerBody: AnimatedSprite, playerSheets: PlayerSheetProps) {
+    playerBody.textures = playerSheets.standWest
+  },
+  KeyS(playerBody: AnimatedSprite, playerSheets: PlayerSheetProps) {
+    playerBody.textures = playerSheets.standSouth
+  },
+  KeyD(playerBody: AnimatedSprite, playerSheets: PlayerSheetProps) {
+    playerBody.textures = playerSheets.standEast
   }
 }
 

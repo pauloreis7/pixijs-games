@@ -1,15 +1,14 @@
-import {
-  Texture,
-  Rectangle,
-  Loader,
-  BaseTexture,
-  AnimatedSprite
-} from 'pixi.js'
+import { Loader, BaseTexture, AnimatedSprite } from 'pixi.js'
 
 import playerSpritesImg from '../assets/playerSprites.png'
 
 import { PlayerSheetProps } from '../../utils/types'
 import { PLAYER_SPRITE_LOADER_NAME, BULLET_RATE } from '../../utils/constants'
+import {
+  getPlayerWalkingSpriteTextures,
+  getPlayerStandSpriteTextures
+} from '../../utils/functions'
+import { acceptedPlayerStandKeys } from '../../utils/commands'
 
 export class Player {
   public body: AnimatedSprite | null = null
@@ -60,262 +59,27 @@ export class Player {
     const spritesWidth = 60
     const spritesHeight = 61
 
-    this.playerSheet.standSouth = [
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          2 * spritesWidth,
-          1 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      )
-    ]
+    const playerStandTextures = getPlayerStandSpriteTextures(
+      playerBaseTexture,
+      spritesWidth,
+      spritesHeight
+    )
 
-    this.playerSheet.standWest = [
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          1 * spritesWidth,
-          3 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      )
-    ]
+    const playerWalkingTextures = getPlayerWalkingSpriteTextures(
+      playerBaseTexture,
+      spritesWidth,
+      spritesHeight
+    )
 
-    this.playerSheet.standEast = [
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          1 * spritesWidth,
-          2 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      )
-    ]
+    this.playerSheet.standSouth = playerStandTextures.standSouthTextures
+    this.playerSheet.standWest = playerStandTextures.standWestTextures
+    this.playerSheet.standEast = playerStandTextures.standEastTextures
+    this.playerSheet.standNorth = playerStandTextures.standNorthTextures
 
-    this.playerSheet.standNorth = [
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(2 * spritesWidth, 0, spritesWidth, spritesHeight)
-      )
-    ]
-
-    this.playerSheet.walkSouth = [
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(0, 1 * spritesHeight, spritesWidth, spritesHeight)
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          1 * spritesWidth,
-          1 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          2 * spritesWidth,
-          1 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          3 * spritesWidth,
-          1 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          4 * spritesWidth,
-          1 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          5 * spritesWidth,
-          1 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          6 * spritesWidth,
-          1 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      )
-    ]
-
-    this.playerSheet.walkWest = [
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(0, 3 * spritesHeight, spritesWidth, spritesHeight)
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          1 * spritesWidth,
-          3 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          2 * spritesWidth,
-          3 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          3 * spritesWidth,
-          3 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          4 * spritesWidth,
-          3 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          5 * spritesWidth,
-          3 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          6 * spritesWidth,
-          3 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      )
-    ]
-
-    this.playerSheet.walkEast = [
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(0, 2 * spritesHeight, spritesWidth, spritesHeight)
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          1 * spritesWidth,
-          2 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          2 * spritesWidth,
-          2 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          3 * spritesWidth,
-          2 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          4 * spritesWidth,
-          2 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          5 * spritesWidth,
-          2 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(
-          6 * spritesWidth,
-          2 * spritesHeight,
-          spritesWidth,
-          spritesHeight
-        )
-      )
-    ]
-
-    this.playerSheet.walkNorth = [
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(0, 0, spritesWidth, spritesHeight)
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(1 * spritesWidth, 0, spritesWidth, spritesHeight)
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(2 * spritesWidth, 0, spritesWidth, spritesHeight)
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(3 * spritesWidth, 0, spritesWidth, spritesHeight)
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(4 * spritesWidth, 0, spritesWidth, spritesHeight)
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(5 * spritesWidth, 0, spritesWidth, spritesHeight)
-      ),
-      new Texture(
-        playerBaseTexture,
-        new Rectangle(6 * spritesWidth, 0, spritesWidth, spritesHeight)
-      )
-    ]
+    this.playerSheet.walkSouth = playerWalkingTextures.walkSouthTextures
+    this.playerSheet.walkWest = playerWalkingTextures.walkWestTextures
+    this.playerSheet.walkEast = playerWalkingTextures.walkEastTextures
+    this.playerSheet.walkNorth = playerWalkingTextures.walkNorthTextures
 
     const playerSprite = new AnimatedSprite(this.playerSheet.standSouth)
 
@@ -325,6 +89,18 @@ export class Player {
     this.body.loop = false
     this.body.x = initialX
     this.body.y = initialY
+  }
+
+  keyUpStopPlayerAnimation = (lastPressedKey: string) => {
+    this.body?.stop()
+
+    if (this.body && !this.body?.playing) {
+      const standPlayerFunction = acceptedPlayerStandKeys[lastPressedKey]
+
+      if (standPlayerFunction) {
+        standPlayerFunction(this.body, this.playerSheet)
+      }
+    }
   }
 
   playerCanShoot(): boolean {

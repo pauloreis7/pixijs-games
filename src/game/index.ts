@@ -14,7 +14,7 @@ export class Game {
 
   private bullets: { [key: number]: Bullet } = {}
 
-  public inputs: Inputs = new Inputs()
+  public inputs: Inputs
 
   constructor() {
     this.app = new Application({
@@ -28,6 +28,8 @@ export class Game {
     const player = new Player(this.app.view.width / 2, this.app.view.height / 2)
 
     this.player = player
+
+    this.inputs = new Inputs(this.player.keyUpStopPlayerAnimation)
 
     player.playerSpritesLoader.onComplete.add(() => {
       if (this.player.body) {

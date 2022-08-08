@@ -8,6 +8,12 @@ export class Inputs {
 
   public shoot = false
 
+  public keyUpDependencyFunction: (lastPressedKey: string) => void
+
+  constructor(keyUpDependencyFunction: (lastPressedKey: string) => void) {
+    this.keyUpDependencyFunction = keyUpDependencyFunction
+  }
+
   public start = () => {
     window.addEventListener('blur', this.cleanPressedInputs, false)
 
@@ -37,6 +43,8 @@ export class Inputs {
     event.stopPropagation()
 
     this.keys[event.code] = false
+
+    this.keyUpDependencyFunction(event.code)
   }
 
   private handleMouseDown = (event: MouseEvent) => {
