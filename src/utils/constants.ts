@@ -1,4 +1,7 @@
 export const GAME_VIEW_CONTAINER_ID = 'game-canvas-container'
+export const MAP_LOADER_NAME = 'map-background'
+export const MAP_WIDTH = 800
+export const MAP_HEIGHT = 600
 
 // Players
 export const PLAYER_SPEED = 4

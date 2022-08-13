@@ -1,16 +1,24 @@
 import { Application } from 'pixi.js'
 
-import { GAME_VIEW_CONTAINER_ID, BULLET_SPEED } from '../utils/constants'
+import {
+  GAME_VIEW_CONTAINER_ID,
+  BULLET_SPEED,
+  MAP_WIDTH,
+  MAP_HEIGHT
+} from '../utils/constants'
 import { acceptedPlayerMoves, shoot } from '../utils/commands'
 import { Inputs } from './inputs'
 
 import { Bullet } from './entities/Bullet'
 import { Player } from './entities/Player'
+import { Map } from './entities/Map'
 
 export class Game {
   private app: Application
 
   private player: Player
+
+  private map: Map
 
   private bullets: { [key: number]: Bullet } = {}
 
@@ -18,20 +26,26 @@ export class Game {
 
   constructor() {
     this.app = new Application({
-      width: 800,
-      height: 600,
+      width: MAP_WIDTH,
+      height: MAP_HEIGHT,
       antialias: false,
       autoDensity: true,
       backgroundColor: Number('0xb3b5c6')
     })
 
+    const map = new Map(MAP_WIDTH, MAP_HEIGHT)
     const player = new Player(this.app.view.width / 2, this.app.view.height / 2)
 
     this.player = player
+    this.map = map
 
     this.inputs = new Inputs(this.player.keyUpStopPlayerAnimation)
 
     player.playerSpritesLoader.onComplete.add(() => {
+      if (map.mapTilingSprite) {
+        this.app.stage.addChild(map.mapTilingSprite)
+      }
+
       if (this.player.body) {
         this.app.stage.addChild(this.player.body)
         this.player.body.play()
@@ -44,6 +58,7 @@ export class Game {
   private gameLoop = () => {
     this.updateInputs()
     this.updateBullets()
+    this.map.updateBackground()
   }
 
   start = () => {
